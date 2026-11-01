@@ -90,91 +90,9 @@ footer p{color:#ccc;font-size:13px}
 <p>Este site é uma paródia. Todas as notícias são fictícias e criadas para entretenimento.</p>
 <p>© 2026 — FONTE: CONFIA</p>
 </footer>
-<section id="comunidade" style="padding:20px;background:#111;color:white;border-radius:12px;margin:20px;">
-  <h2>💬 FONTE: CONFIA — CHAT</h2>
-  <style>
-#nickname, #message {
-  background-color: white !important;
-  color: black !important;
-  border: 1px solid #888;
-  padding: 10px;
-  border-radius: 8px;
-  width: 100%;
-  box-sizing: border-box;
-}
-  </style> placeholder="Seu apelido (2 a 20 letras)" maxlength="20">
-  <br><br>
-  <textarea id="message" placeholder="Escreva sua mensagem..." maxlength="500"></textarea>
-  <br>
-  <button id="send">Enviar mensagem</button>
-  <div id="chat"></div>
-</section>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-const supabaseClient = supabase.createClient(
-  "https://bisartxrdgjggutfgksd.supabase.co",
-  "sb_publishable_Z32tVsviWk9X-byDjwoJUQ_vij1m3-c"
-);
-
-const chat = document.getElementById("chat");
-
-async function carregarMensagens() {
-  const { data, error } = await supabaseClient
-    .from("messages")
-    .select("nickname, content, created_at")
-    .eq("approved", true)
-    .order("created_at", { ascending: true });
-
-  if (error) {
-    chat.textContent = "Erro ao carregar mensagens.";
-    return;
-  }
-
-  chat.replaceChildren();
-
-  data.forEach(msg => {
-    const linha = document.createElement("p");
-    linha.textContent = msg.nickname + ": " + msg.content;
-    chat.appendChild(linha);
-  });
-}
-
-document.getElementById("send").onclick = async () => {
-  const nickname = document.getElementById("nickname").value.trim();
-  const content = document.getElementById("message").value.trim();
-
-  if (nickname.length < 2 || !content) {
-    alert("Digite um apelido e uma mensagem.");
-    return;
-  }
-
-  const { error } = await supabaseClient
-    .from("messages")
-    .insert([{ nickname, content }]);
-
-  if (error) {
-    alert("Não foi possível enviar.");
-    return;
-  }
-
-  document.getElementById("message").value = "";
-  alert("Mensagem enviada para moderação!");
-  carregarMensagens();
-};
-
-carregarMensagens();
-setInterval(carregarMensagens, 5000);
 </script>
-  <style>
-#nickname, #message {
-  background-color: white !important;
-  color: black !important;
-  border: 1px solid #888;
-  padding: 10px;
-  border-radius: 8px;
-  width: 100%;
-  box-sizing: border-box;
+  
+  
 }
   </style>
 </body>
